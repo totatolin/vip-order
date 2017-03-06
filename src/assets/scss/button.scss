@@ -1,0 +1,11 @@
+@import './color.scss';
+.btn-red {
+  color: $color-white;
+  background-color: $color-red1;
+  border-color: $color-red1;
+  &:hover,
+  &focus {
+    color: $color-white;
+    outline: none;
+  }
+}

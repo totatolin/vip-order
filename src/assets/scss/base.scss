@@ -150,8 +150,8 @@
 /**
  * margin-right
  */
-// .mr0, .mr5, ..., .mr30
-@for $i from 0 through 6 {
+// .mr0, .mr5, ..., .mr50
+@for $i from 0 through 10 {
   .mr#{$i*5} {
     margin-right: 5px * $i;
   }

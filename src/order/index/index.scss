@@ -1,9 +1,12 @@
 .index-page {
   min-width: 1170px;
-  padding-top: 80px;
-  background-color: #1c1d22;
+  padding-top: 75px;
+  background-color: #4e4f41;
   .index-wrapper {
     width: 1060px;
     margin: 0 auto;
+    .index-wrapper-body {
+      height: 300px;
+    }
   }
 }

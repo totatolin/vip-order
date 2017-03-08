@@ -1,9 +1,21 @@
-<template>
-  <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <router-view></router-view>
-  </div>
+<template lang="pug">
+  #app
+    //- <!-- <img src="./assets/logo.png"> -->
+    ul
+      li
+        a(href="/") 1
+      li
+        a(href="/#/index") 2
+    router-view
 </template>
+
+<script>
+export default {
+  mounted () {
+    console.info(this.$route.name)
+  }
+}
+</script>
 
 <style lang="scss">
 @import './assets/scss/style.scss';

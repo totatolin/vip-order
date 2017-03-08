@@ -187,6 +187,16 @@
 }
 
 /**
+ * line-height
+ */
+// .lh0, .lh15, ..., .lh60
+@for $i from 0 through 12 {
+  .lh#{$i*5} {
+    line-height: 5px * $i;
+  }
+}
+
+/**
  * opacity
  **/
 @for $i from 0 through 10 {
@@ -276,6 +286,16 @@
 }
 .p-fx {
   position: fixed;
+}
+
+/**
+ * cursor
+ */
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
 }
 
 /**

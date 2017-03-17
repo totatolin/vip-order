@@ -1,9 +1,9 @@
 <template lang="pug">
   .foot.p-fx
     .foot-body
-      img.pull-left.mt25(src="./index/images/sprites/worktime.png")
+      img.pull-left.mt25(src="../order/images/sprites/worktime.png")
       span.ft12.color-grey2.pull-left.ml5.mt25 工作时间：周一至周五 09:00-18:00
-      img.pull-left.ml40.mt25(src="./index/images/sprites/tel.png")
+      img.pull-left.ml40.mt25(src="../order/images/sprites/tel.png")
       span.ft12.color-grey2.pull-left.ml5.mt25 联系我们：400-0123-575
       span.ft12.color-grey2.pull-right.mt25 @Copyright 浙ICP 备 11034583号-2
 </template>

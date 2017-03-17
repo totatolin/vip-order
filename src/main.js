@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import './order/filter/filter.js'
+import store from './store'
 
 Vue.use(ElementUI)
 
@@ -12,6 +14,7 @@ Vue.use(ElementUI)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

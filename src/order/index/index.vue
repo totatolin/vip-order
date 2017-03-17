@@ -15,7 +15,7 @@
 import login from './components/login.vue'
 import category from './components/category.vue'
 import images from './components/images.vue'
-import foot from '../foot.vue'
+import foot from '../../components/foot.vue'
 export default {
   components: {
     login,

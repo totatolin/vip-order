@@ -16,6 +16,7 @@ export default {
 
 <style lang="scss" scoped>
 .foot {
+  min-width: 1170px;
   width: 100%;
   height: 60px;
   background-color: #34302b;

@@ -81,5 +81,8 @@ module.exports = {
         loader: 'pug'
       }
     ]
+  },
+  externals: {
+    'AMap': 'window.AMap'
   }
 }

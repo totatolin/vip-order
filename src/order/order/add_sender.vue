@@ -7,7 +7,7 @@
 <script>
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .add-sender {
   width: 1100px;
   height: 60px;

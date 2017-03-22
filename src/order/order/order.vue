@@ -10,6 +10,7 @@ div
     order-item
     order-item
     add-sender
+    service-options
   bottom-bar
 </template>
 
@@ -17,12 +18,14 @@ div
 import orderItem from './order_item.vue'
 import bottomBar from './bottom_bar.vue'
 import addSender from './add_sender.vue'
+import serviceOptions from './service_options.vue'
 
 export default {
   components: {
     orderItem,
     bottomBar,
-    addSender
+    addSender,
+    serviceOptions
   },
   methods: {
     goToLastPage: function () {
@@ -32,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .scrollable-zone {
   position: absolute;
   top: 80px;

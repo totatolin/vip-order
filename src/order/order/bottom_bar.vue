@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bottom-bar {
   min-width: 1440px;
   height: 70px;

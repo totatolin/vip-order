@@ -3,85 +3,66 @@
   .single-line
     .d-ib.state
       img.icon(src="./images/icon_add_sent@3x.png")
-    input.user-name(v-model='sender.name' placeholder="姓名")
-    input.tel(v-model='sender.tel' placeholder="电话号码")
-    input.addr(v-model='sender.addressName' @keyup='delayExec(getLnglatFromName, {name: sender.addressName, type: "sender"}, 1000)' placeholder="地址")
+    input.user-name(v-model='$store.state.order.sender.name' placeholder="姓名")
+    input.tel(v-model='$store.state.order.sender.tel' placeholder="电话号码")
+    input.addr(v-model='$store.state.order.sender.addressName' @keyup='delayExec(getLnglatFromName, {name: $store.state.order.sender.addressName, type: "sender"}, 1000)' placeholder="地址")
     .d-ib.location
-      img.icon(v-if="sender.isAddrValid" src="./images/bt_location_st2@3x.png")
-      img.icon(v-if="!sender.isAddrValid" src="./images/bt_location_st3@3x.png")
-      .err-locating(v-if="!sender.isAddrValid") 该地址定位失败，点击按钮进行辅助定位
+      img.icon(v-if="$store.state.order.sender.isAddrValid" src="./images/bt_location_st2@3x.png")
+      img.icon(v-if="!$store.state.order.sender.isAddrValid" src="./images/bt_location_st3@3x.png")
+      .err-locating(v-if="!$store.state.order.sender.isAddrValid") 该地址定位失败，点击按钮进行辅助定位
     .pull-right
       .d-ib.draw-time 上门取货时间
-      el-date-picker.order-time.ml20.mr25(v-model='orderTime' type="datetime" placeholder="选择时间")
+      el-date-picker.order-time.ml20.mr25(v-model='$store.state.order.orderTime' type="datetime" placeholder="选择时间")
       //- button.order-time.ml20.mr25
         span 立即发货
         img.icon(src="./images/up_2@3x.png")
-  .single-line(v-for="(item, index) in receivers")
+  .single-line(v-for="(item, index) in $store.state.order.receivers")
     .d-ib.state
       img.icon(v-if="index===0" src="./images/icon_add_rece@3x.png")
       img.dot(v-if="index>0" src="./images/icon_rece dot@3x.png")
     input.user-name(v-model='item.name' placeholder="姓名")
     input.tel(v-model='item.tel' placeholder="电话号码")
-    input.addr(v-model='item.addressName' @keyup='delayExec(getLnglatFromName, {name: receivers[index].addressName, type: "receiver", index: index}, 1000)' placeholder="地址")
+    input.addr(v-model='item.addressName' @keyup='delayExec(getLnglatFromName, {name: $store.state.order.receivers[index].addressName, type: "receiver", index: index}, 1000)' placeholder="地址")
     .d-ib.location
-      img.icon(v-if="receivers[index].isAddrValid" src="./images/bt_location_st2@3x.png")
-      img.icon(v-if="!receivers[index].isAddrValid" src="./images/bt_location_st3@3x.png")
-      .err-locating(v-if="!receivers[index].isAddrValid") 该地址定位失败，点击按钮进行辅助定位
-  .add-receiver.pull-right.mr25(@click="addReceiver(receivers)")
+      img.icon(v-if="$store.state.order.receivers[index].isAddrValid" src="./images/bt_location_st2@3x.png")
+      img.icon(v-if="!$store.state.order.receivers[index].isAddrValid" src="./images/bt_location_st3@3x.png")
+      .err-locating(v-if="!$store.state.order.receivers[index].isAddrValid") 该地址定位失败，点击按钮进行辅助定位
+    img.icon.ml100(src="./images/up@3x.png" @click='showServiceOptions({senderIndex: 0, receiverIndex: index})')
+  .add-receiver.pull-right.mr25(@click="addReceiver()")
     img.icon(src="./images/bt_添加送货地址@3x.png")
-    .d-ib(@click="getLnglatFromName('浙江大学')") 添加送货地址
+    .d-ib 添加送货地址
 </template>
 
 <script>
 import AMap from 'AMap'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       // 输入时间延迟事件ID
-      delayInputId: undefined,
-      orderTime: '',
-      sender: {
-        name: '用户1',
-        tel: '18012340001',
-        addressName: '地址1',
-        lng: undefined,
-        lat: undefined,
-        isAddrValid: true
-      },
-      receivers: [
-        {
-          name: '用户2',
-          tel: '18012340002',
-          addressName: '地址2',
-          lng: undefined,
-          lat: undefined,
-          isAddrValid: true
-        },
-        {
-          name: '用户3',
-          tel: '18012340003',
-          addressName: '地址3',
-          lng: undefined,
-          lat: undefined,
-          isAddrValid: true
-        }
-      ]
+      delayInputId: undefined
     }
   },
   methods: {
-    addReceiver: function (receivers) {
-      receivers.push({})
+    addReceiver: function () {
+      // TODO 内容需要从接口获得
+      this.$store.state.order.receivers.push({
+        serviceOptionsData: {
+          typeList: [],
+          schemaList: []
+        }
+      })
     },
     setSenderAddr: function (senderAddr) {
-      this.sender.addressName = senderAddr.name
-      this.sender.lng = senderAddr.location.lng
-      this.sender.lat = senderAddr.location.lat
+      this.$store.state.order.sender.addressName = senderAddr.name
+      this.$store.state.order.sender.lng = senderAddr.location.lng
+      this.$store.state.order.sender.lat = senderAddr.location.lat
     },
     setReceiverAddr: function (receiverAddr, index) {
-      this.receivers[index].addressName = receiverAddr.name
-      this.receivers[index].lng = receiverAddr.location.lng
-      this.receivers[index].lat = receiverAddr.location.lat
+      this.$store.state.order.receivers[index].addressName = receiverAddr.name
+      this.$store.state.order.receivers[index].lng = receiverAddr.location.lng
+      this.$store.state.order.receivers[index].lat = receiverAddr.location.lat
     },
     /**
      * [delayExec description]
@@ -121,23 +102,27 @@ export default {
           try {
             if (para.type === 'sender') {
               that.$options.methods.setSenderAddr.bind(that)(result.poiList.pois[0])
-              that.sender.isAddrValid = true
+              that.$store.state.order.sender.isAddrValid = true
             } else if (para.type === 'receiver') {
               that.$options.methods.setReceiverAddr.bind(that)(result.poiList.pois[0], para.index)
-              that.receivers[para.index].isAddrValid = true
+              that.$store.state.order.receivers[para.index].isAddrValid = true
             }
           } catch (err) {
             // 处理查询不到对应地址的情况
             console.log('Caught an error.')
             if (para.type === 'sender') {
-              that.sender.isAddrValid = false
+              that.$store.state.order.sender.isAddrValid = false
             } else if (para.type === 'receiver') {
-              that.receivers[para.index].isAddrValid = false
+              that.$store.state.order.receivers[para.index].isAddrValid = false
             }
           }
         })
       })
-    }
+    },
+    ...mapActions([
+      'showServiceOptions',
+      'hideServiceOptions'
+    ])
   }
 }
 </script>
@@ -178,6 +163,25 @@ img.dot {
 input {
   height: 14px;
   border: none;
+  // 设置input输入框的placeholder样式
+  @mixin input-placeholder {
+    font-family: PingFang-SC-Regular;
+    font-size: 14px;
+    line-height: 14px;
+    color: #e0e2e0;
+  }
+  &::-webkit-input-placeholder {
+    @include input-placeholder;
+  }
+  &:-moz-placeholder {
+    @include input-placeholder;
+  }
+  &::-moz-placeholder {
+    @include input-placeholder;
+  }
+  &::ms-input-placeholder {
+    @include input-placeholder;
+  }
 }
 .user-name {
   width: 50px;

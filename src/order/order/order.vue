@@ -7,11 +7,9 @@ div
         span 温馨提示：返回至上层将丢失此页的表单填充数据，非地址错误较多的情况下
         span.color-red3.ml5 谨慎操作
     order-item
-    order-item
-    order-item
     add-sender
-    service-options
   bottom-bar
+  service-options(v-if='$store.state.order.isShowServiceOptions')
 </template>
 
 <script>

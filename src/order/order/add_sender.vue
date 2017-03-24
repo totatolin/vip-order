@@ -22,6 +22,7 @@
   margin-bottom: 10px;
   padding-right: 25px;
   box-sizing: border-box;
+  cursor: default;
 }
 img.icon {
   width: 24px;

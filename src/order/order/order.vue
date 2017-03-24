@@ -18,12 +18,70 @@ import bottomBar from './bottom_bar.vue'
 import addSender from './add_sender.vue'
 import serviceOptions from './service_options.vue'
 
+import axios from 'axios'
+import url from '../../config/url.js'
+
 export default {
   components: {
     orderItem,
     bottomBar,
     addSender,
     serviceOptions
+  },
+  mounted: function () {
+    this.$store.state.order.receiverProtoData = {
+      addressName: '',
+      isAddrValid: true,
+      lat: undefined,
+      lng: undefined,
+      name: '新用户',
+      tel: '',
+      serviceOptionsData: {
+        typeList: [],
+        schemaList: []
+      }
+    }
+    // 获取所有保护类型
+    axios.get(`${url.java_url}/Category/findProtectTypes`)
+    .then((res) => {
+      this.$store.state.order.typeProtectionOptions = res.data.data
+      // 添加typeList条目
+      this.$store.state.order.typeProtectionOptions.map(
+        (item) => {
+          this.$store.state.order.receiverProtoData.serviceOptionsData.typeList.push(
+            { isSelected: false }
+          )
+        }
+      )
+      this.$store.state.order.receivers.map((receiver) => {
+        receiver.serviceOptionsData.typeList = []
+        res.data.data.map((item) => {
+          receiver.serviceOptionsData.typeList.push({ isSelected: false })
+        })
+      })
+    })
+    // 获取所有服务模式
+    axios.get(`${url.java_url}/Category/findServiceTypes`)
+    .then((res) => {
+      this.$store.state.order.schemaOptions = res.data.data
+      // 添加schemaList条目
+      this.$store.state.order.schemaOptions.map(
+        (item) => {
+          this.$store.state.order.receiverProtoData.serviceOptionsData.schemaList.push(
+            { isSelected: false }
+          )
+        }
+      )
+      this.$store.state.order.receivers.map((receiver) => {
+        receiver.serviceOptionsData.schemaList = []
+        res.data.data.map((item) => {
+          receiver.serviceOptionsData.schemaList.push({ isSelected: false })
+        })
+      })
+    })
+    .catch((errRes) => {
+      alert(errRes.data.message)
+    })
   },
   methods: {
     goToLastPage: function () {

@@ -3,6 +3,8 @@ export default {
     isShowServiceOptions: false,
     selectedSenderIndex: undefined,
     selectedReceiverIndex: undefined,
+    typeProtectionOptions: [],
+    schemaOptions: [],
     orderTime: '',
     sender: {
       name: '用户1',
@@ -21,19 +23,8 @@ export default {
         lat: undefined,
         isAddrValid: true,
         serviceOptionsData: {
-          typeList: [
-            {
-              isSelected: true
-            },
-            {
-              isSelected: false
-            }
-          ],
-          schemaList: [
-            {
-              isSelected: false
-            }
-          ]
+          typeList: [],
+          schemaList: []
         }
       }
     ]
@@ -45,7 +36,10 @@ export default {
     },
     toggleSchema (state, index) {
       console.log('toggleSchema ' + index)
-      state.receivers[state.selectedReceiverIndex].serviceOptionsData.schemaList[index].isSelected = !state.receivers[state.selectedReceiverIndex].serviceOptionsData.schemaList[index].isSelected
+      if (!state.receivers[state.selectedReceiverIndex].serviceOptionsData.schemaList[index].isSelected) {
+        state.receivers[state.selectedReceiverIndex].serviceOptionsData.schemaList.map((item) => { item.isSelected = false })
+        state.receivers[state.selectedReceiverIndex].serviceOptionsData.schemaList[index].isSelected = true
+      }
     },
     // payLoad 内包含 senderIndex 和 receiverindex 两个 key
     showServiceOptions (state, payLoad) {
@@ -57,6 +51,11 @@ export default {
       state.selectedSenderIndex = undefined
       state.selectedReceiverIndex = undefined
       state.isShowServiceOptions = false
+    },
+    addReceiver (state) {
+      state.receivers.push(
+        Object.assign({}, state.receiverProtoData)
+      )
     }
   },
   actions: {
@@ -71,6 +70,9 @@ export default {
     },
     hideServiceOptions: ({commit}) => {
       commit('hideServiceOptions')
+    },
+    addReceiver: ({commit}) => {
+      commit('addReceiver')
     }
   }
 }

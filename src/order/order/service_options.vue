@@ -4,17 +4,17 @@
     .modal-title 选择配送服务
     .sub-title.mt40.mb5 品类保护
     .mt5
-      .type-protection-div.d-ib.mt10.mr20(:class='{chosen: item.isSelected, unchosen: !item.isSelected}' v-for='(item, index) in typeList' @click='toggleType(index)')
-        img.icon.pull-right.mr20.mt5(v-if="item.isSelected" src="./images/icon_option_seled@3x.png")
-        .item-name.d-ib 常规保护
-        .add-price.d-ib.ml15 +￥1
-        .example-list 标准件 | 文件 | 快消
+      .type-protection-div.d-ib.mt10.mr20(v-for='(item, index) in typeProtectionOptions'  v-bind:class='{chosen: typeList[index].isSelected, unchosen: !typeList[index].isSelected}' @click='toggleType(index)')
+        img.icon.pull-right.mr20.mt5(v-if="typeList[index].isSelected" src="./images/icon_option_seled@3x.png")
+        .item-name.d-ib {{item.name}}
+        .add-price.d-ib.ml15 +￥{{item.price}}
+        .example-list {{item.suggestCateName}}
     .sub-title.mt30 方案选择
     .schema-selection.mt15
-      .item-wrapper(v-for='(item, index) in schemaList' @click='toggleSchema(index)')
-        img.icon.mt15.mr15.pull-right(v-if="item.isSelected" src="./images/radio_ed@3x.png")
-        img.icon.mt15.mr15.pull-right(v-if="!item.isSelected" src="./images/radio_un@3x.png")
-        .item 配送员上门
+      .item-wrapper(v-for='(item, index) in schemaOptions' @click='toggleSchema(index)')
+        img.icon.mt15.mr15.pull-right(v-if="schemaList[index].isSelected" src="./images/radio_ed@3x.png")
+        img.icon.mt15.mr15.pull-right(v-if="!schemaList[index].isSelected" src="./images/radio_un@3x.png")
+        .item {{item.name}}
     hr.mr40.mt30
     button.bottom-btn.mr40.mt30.pull-right(@click='hideServiceOptions()') 关闭
 </template>
@@ -26,6 +26,8 @@ export default {
   name: 'serviceOptions',
   data () {
     return {
+      typeProtectionOptions: this.$store.state.order.typeProtectionOptions,
+      schemaOptions: this.$store.state.order.schemaOptions,
       typeList: this.$store.state.order.receivers[this.$store.state.order.selectedReceiverIndex].serviceOptionsData.typeList,
       schemaList: this.$store.state.order.receivers[this.$store.state.order.selectedReceiverIndex].serviceOptionsData.schemaList
     }
@@ -84,6 +86,7 @@ export default {
   border-radius: 4px;
   padding: 11px 0 0 16px;
   box-sizing: border-box;
+  overflow-y: hidden;
   .item-name {
     font-family: PingFang-SC-Regular;
     font-size: 14px;

@@ -45,15 +45,6 @@ export default {
     }
   },
   methods: {
-    addReceiver: function () {
-      // TODO 内容需要从接口获得
-      this.$store.state.order.receivers.push({
-        serviceOptionsData: {
-          typeList: [],
-          schemaList: []
-        }
-      })
-    },
     setSenderAddr: function (senderAddr) {
       this.$store.state.order.sender.addressName = senderAddr.name
       this.$store.state.order.sender.lng = senderAddr.location.lng
@@ -121,7 +112,8 @@ export default {
     },
     ...mapActions([
       'showServiceOptions',
-      'hideServiceOptions'
+      'hideServiceOptions',
+      'addReceiver'
     ])
   }
 }
@@ -232,5 +224,6 @@ button.order-time {
   font-family: PingFang-SC-Regular;
   font-size: 14px;
   color: #709bcd;
+  cursor: default;
 }
 </style>
